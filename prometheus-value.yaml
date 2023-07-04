@@ -1,0 +1,34 @@
+alertmanager:
+  enabled: false
+grafana:
+  enabled: true
+  adminPassword: prom-operator
+  ingress:
+    enabled: true
+    hosts:
+      - monitor.mjozsef.hu
+  persistence:
+    type: pvc
+    enabled: true
+    # storageClassName: default
+    accessModes:
+    - ReadWriteOnce
+    size: 1Gi
+    # annotations: {}
+    finalizers:
+    - kubernetes.io/pvc-protection
+  additionalDataSources:
+  - name: prometheus-datasource
+    access: proxy
+    basicAuth: false
+    editable: false
+    orgId: 1
+    type: prometheus
+    url: http://{{ printf "%s-prometheus.svc" .Release.Name }}:9090
+    version: 1
+kubeStateMetrics:
+  enabled: false
+nodeExporter:
+  enabled: false
+prometheus:
+  enabled: true
