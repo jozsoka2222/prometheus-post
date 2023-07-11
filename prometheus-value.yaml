@@ -1,8 +1,7 @@
-alertmanager:
-  enabled: false
 grafana:
   enabled: true
   adminPassword: prom-operator
+  defaultDashboardsTimezone: browser
   ingress:
     enabled: true
     hosts:
@@ -19,14 +18,10 @@ grafana:
     - kubernetes.io/pvc-protection
   deploymentStrategy:
     type: Recreate
-kubeStateMetrics:
-  enabled: false
-nodeExporter:
-  enabled: false
 prometheus:
   enabled: true
   prometheusSpec:
-    retention: 10d
+    retention: 30d
     retentionSize: 10GiB
     storageSpec:
      volumeClaimTemplate:
@@ -35,3 +30,23 @@ prometheus:
          resources:
            requests:
              storage: 11Gi
+kubeStateMetrics:
+  enabled: true
+  collectors:
+  - pods
+nodeExporter:
+  enabled: false
+kubeApiServer:
+  enabled: false
+kubeDns:
+  enabled: false
+kubeProxy:
+  enabled: false
+coreDns:
+  enabled: false
+kubeEtcd:
+  enabled: false
+alertmanager:
+  enabled: false
+kubeScheduler:
+  enabled: false
