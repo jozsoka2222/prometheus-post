@@ -19,15 +19,6 @@ grafana:
     - kubernetes.io/pvc-protection
   deploymentStrategy:
     type: Recreate
-  additionalDataSources:
-  - name: prometheus-datasource
-    access: proxy
-    basicAuth: false
-    editable: false
-    orgId: 1
-    type: prometheus
-    url: http://{{ printf "%s-prometheus.svc" .Release.Name }}:9090
-    version: 1
 kubeStateMetrics:
   enabled: false
 nodeExporter:
@@ -37,3 +28,10 @@ prometheus:
   prometheusSpec:
     retention: 10d
     retentionSize: 10GiB
+    storageSpec:
+     volumeClaimTemplate:
+       spec:
+         accessModes: ["ReadWriteOnce"]
+         resources:
+           requests:
+             storage: 11Gi
