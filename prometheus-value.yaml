@@ -17,6 +17,8 @@ grafana:
     # annotations: {}
     finalizers:
     - kubernetes.io/pvc-protection
+  deploymentStrategy:
+    type: Recreate
   additionalDataSources:
   - name: prometheus-datasource
     access: proxy
@@ -32,3 +34,6 @@ nodeExporter:
   enabled: false
 prometheus:
   enabled: true
+  prometheusSpec:
+    retention: 10d
+    retentionSize: 10GiB
